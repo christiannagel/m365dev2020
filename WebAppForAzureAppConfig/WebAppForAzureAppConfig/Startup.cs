@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 using WebAppForAzureAppConfig.Pages;
 
 namespace WebAppForAzureAppConfig
@@ -21,6 +23,7 @@ namespace WebAppForAzureAppConfig
         {
             services.Configure<IndexAppSettings>(Configuration.GetSection("AppConfigurationSample:Settings"));
             services.AddAzureAppConfiguration();
+            services.AddFeatureManagement().AddFeatureFilter<PercentageFilter>();
             services.AddRazorPages();
         }
 
@@ -39,6 +42,7 @@ namespace WebAppForAzureAppConfig
             }
 
             app.UseAzureAppConfiguration();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

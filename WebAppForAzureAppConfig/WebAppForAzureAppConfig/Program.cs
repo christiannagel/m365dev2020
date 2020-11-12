@@ -32,7 +32,8 @@ namespace WebAppForAzureAppConfig
                                     {
                                         refresh.Register("AppConfigurationSample:Settings:Sentinel", refreshAll: true)
                                             .SetCacheExpiration(TimeSpan.FromSeconds(5));
-                                    });
+                                    })
+                                    .UseFeatureFlags();
                             });
                         }
                     });
