@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "DotnetConfiguration": {
+      "commandName": "Project",
+      "commandLineArgs": "MyKey1=\"value from args\"",
+      "environmentVariables": {
+        "ConnectionStrings:SampleConnection": "connection string from environmental variables"
+      }
+    }
+  }
+}
