@@ -8,7 +8,7 @@ namespace WebAppForAzureAppConfig.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(IOptions<IndexAppSettings> options, ILogger<IndexModel> logger)
+        public IndexModel(IOptionsSnapshot<IndexAppSettings> options, ILogger<IndexModel> logger)
         {
             _logger = logger;
             Config1 = options.Value.Config1 ?? "no value";

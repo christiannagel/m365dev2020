@@ -20,6 +20,7 @@ namespace WebAppForAzureAppConfig
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<IndexAppSettings>(Configuration.GetSection("AppConfigurationSample:Settings"));
+            services.AddAzureAppConfiguration();
             services.AddRazorPages();
         }
 
@@ -37,6 +38,7 @@ namespace WebAppForAzureAppConfig
                 app.UseHsts();
             }
 
+            app.UseAzureAppConfiguration();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
