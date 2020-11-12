@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -25,6 +26,8 @@ namespace WebAppForAzureAppConfig
                             config.AddAzureAppConfiguration(options =>
                             {
                                 options.Connect(appConfigurationConnection)
+                                    .Select(KeyFilter.Any, LabelFilter.Null)
+                                    .Select(KeyFilter.Any, context.HostingEnvironment.EnvironmentName)
                                     .ConfigureRefresh(refresh =>
                                     {
                                         refresh.Register("AppConfigurationSample:Settings:Sentinel", refreshAll: true)
