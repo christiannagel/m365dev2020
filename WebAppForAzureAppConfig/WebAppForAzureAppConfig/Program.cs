@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
@@ -19,9 +20,10 @@ namespace WebAppForAzureAppConfig
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
+                        var settings = config.Build();
+
                         if (context.HostingEnvironment.IsDevelopment())
                         {
-                            var settings = config.Build();
                             var appConfigurationConnection = settings["AzureAppConfigurationConnection"];
                             config.AddAzureAppConfiguration(options =>
                             {
@@ -34,6 +36,23 @@ namespace WebAppForAzureAppConfig
                                             .SetCacheExpiration(TimeSpan.FromSeconds(5));
                                     })
                                     .UseFeatureFlags();
+                            });
+                        }
+                        else
+                        {
+                            var appConfigurationEndpoint = settings["AzureAppConfigurationEndpoint"];
+                            config.AddAzureAppConfiguration(options =>
+                            {
+                                var credentials = new ManagedIdentityCredential();
+                                options.Connect(new Uri(appConfigurationEndpoint), credentials)
+                                    .Select(KeyFilter.Any, LabelFilter.Null)
+                                    .Select(KeyFilter.Any, context.HostingEnvironment.EnvironmentName)
+                                    .ConfigureRefresh(refresh =>
+                                    {
+                                        refresh.Register("AppConfigurationSample:Settings:Sentinel", refreshAll: true)
+                                            .SetCacheExpiration(TimeSpan.FromSeconds(5));
+                                    })
+                                    .UseFeatureFlags();                                    
                             });
                         }
                     });
