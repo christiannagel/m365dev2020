@@ -4,6 +4,7 @@
       "commandName": "Project",
       "commandLineArgs": "MyKey1=\"value from args\"",
       "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
         "ConnectionStrings:SampleConnection": "connection string from environmental variables"
       }
     }
