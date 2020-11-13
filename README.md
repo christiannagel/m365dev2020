@@ -28,6 +28,10 @@ az appconfig kv set -n $conf --key $key1 --label Production --value "$prodval1" 
 
 az appconfig kv set -n $conf --key $sentinelKey --value $sentinelValue -y
 
+```
 
+## Feature Flags
 
+```bash
+az appconfig feature set --feature FeatureX -n $conf
 ```
